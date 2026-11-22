@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Si me encontraste</title>
+<style>
+  :root {
+    --fondo: #f1f3ee;
+    --tarjeta: #ffffff;
+    --texto: #26302a;
+    --suave: #6b766e;
+    --aviso: #eadff3;
+    --verde: #6f9a5f;
+    --whatsapp: #3fb950;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    padding: 20px 16px 40px;
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.45;
+  }
+  main { max-width: 480px; margin: 0 auto; }
+  .cabecera { display: flex; gap: 16px; align-items: center; margin-bottom: 16px; }
+  .cabecera img {
+    width: 96px; height: 96px; border-radius: 22px; object-fit: cover; background: #dfe4dc; flex: none;
+  }
+  h1 { margin: 0; font-size: 2rem; line-height: 1.1; }
+  .sub { margin: 4px 0 0; color: var(--suave); font-size: .95rem; }
+  .aviso {
+    background: var(--aviso); border-radius: 16px; padding: 14px 16px; margin-bottom: 16px; font-weight: 600;
+  }
+  .botones { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+  .btn {
+    display: block; text-align: center; text-decoration: none; border: 0; cursor: pointer;
+    padding: 16px 12px; border-radius: 16px; color: #fff; font: inherit; font-weight: 700; font-size: 1.05rem;
+    background: var(--verde);
+  }
+  .btn.whatsapp { background: var(--whatsapp); }
+  .btn.ancho { grid-column: 1 / -1; }
+  .btn:focus-visible { outline: 3px solid var(--texto); outline-offset: 2px; }
+  .dato { background: var(--tarjeta); border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; }
+  .dato h2 { margin: 0 0 4px; font-size: .85rem; color: var(--suave); font-weight: 600; }
+  .dato p { margin: 0; white-space: pre-line; }
+  #estado { min-height: 1.4em; margin: -8px 0 16px; text-align: center; color: var(--suave); font-size: .95rem; }
+  footer { text-align: center; color: var(--suave); font-size: .8rem; margin-top: 24px; }
+</style>
+</head>
+<body>
+<main>
+  <section class="cabecera">
+    <img id="foto" src="foto.jpg" alt="" onerror="this.style.display='none'">
+    <div>
+      <h1 id="nombre"></h1>
+      <p class="sub" id="subtitulo"></p>
+    </div>
+  </section>
+
+  <p class="aviso" id="aviso"></p>
+
+  <div class="botones">
+    <a class="btn" id="llamar">Llamar</a>
+    <a class="btn whatsapp" id="whatsapp">WhatsApp</a>
+    <button class="btn ancho" id="ubicacion" type="button">Enviar ubicación</button>
+  </div>
+  <p id="estado" role="status"></p>
+
+  <section class="dato"><h2>Mi humano</h2><p id="humano"></p></section>
+  <section class="dato"><h2>Zona</h2><p id="zona"></p></section>
+  <section class="dato"><h2>Notas</h2><p id="notas"></p></section>
+
+  <footer id="pie"></footer>
+</main>
+
+<script>
+/* ==========================================================
+   EDITA SOLO ESTA PARTE para cada mascota
+   ========================================================== */
+const DATOS = {
+  nombre:    "Herman",
+  subtitulo: "Si me encontraste, por favor contacta a mi humano.",
+  aviso:     "Estoy perdido. Gracias por ayudarme a volver a casa.",
+  humano:    "Reyna Ramírez",
+  zona:      "Escribe aquí tu colonia o zona",
+  notas:     "Respondo a mi nombre. Escribe aquí cómo es Herman: si es tímido, si muerde, si necesita medicina, etc.",
+  // Teléfono con código de país y SIN + ni espacios. México: 52 + 10 dígitos
+  telefono:  "528442430789",
+  pie:       "" // opcional, por ejemplo: "Hecho por Moicilab"
+};
+/* ========================================================== */
+
+const $ = id => document.getElementById(id);
+
+$("nombre").textContent = DATOS.nombre;
+$("subtitulo").textContent = DATOS.subtitulo;
+$("aviso").textContent = DATOS.aviso;
+$("humano").textContent = DATOS.humano;
+$("zona").textContent = DATOS.zona;
+$("notas").textContent = DATOS.notas;
+$("pie").textContent = DATOS.pie;
+$("foto").alt = "Foto de " + DATOS.nombre;
+document.title = DATOS.nombre + " – si me encontraste";
+
+$("llamar").href = "tel:+" + DATOS.telefono;
+$("whatsapp").href = "https://wa.me/" + DATOS.telefono +
+  "?text=" + encodeURIComponent("Hola, encontré a " + DATOS.nombre + ".");
+
+$("ubicacion").addEventListener("click", () => {
+  const estado = $("estado");
+  if (!navigator.geolocation) {
+    estado.textContent = "Tu navegador no permite compartir ubicación. Usa el botón de WhatsApp.";
+    return;
+  }
+  estado.textContent = "Obteniendo ubicación…";
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      const { latitude, longitude } = pos.coords;
+      const mapa = "https://maps.google.com/?q=" + latitude + "," + longitude;
+      const mensaje = "Hola, encontré a " + DATOS.nombre + ". Estoy aquí: " + mapa;
+      estado.textContent = "Abriendo WhatsApp…";
+      window.location.href = "https://wa.me/" + DATOS.telefono + "?text=" + encodeURIComponent(mensaje);
+    },
+    () => {
+      estado.textContent = "No pude obtener tu ubicación. Activa el permiso o usa el botón de WhatsApp.";
+    },
+    { enableHighAccuracy: true, timeout: 10000 }
+  );
+});
+</script>
+</body>
+</html>
