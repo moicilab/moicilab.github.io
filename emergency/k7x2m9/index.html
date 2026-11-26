@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Identificación médica · Moici Emergency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --morado: #2a1145;
+    --morado-medio: #4a2278;
+    --rojo: #d7263d;
+    --naranja: #ff8a1f;
+    --fondo: #faf6ff;
+    --tinta: #1d1129;
+    --borde: #e3d8f0;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--fondo);
+    color: var(--tinta);
+    line-height: 1.5;
+  }
+  .pagina { max-width: 520px; margin: 0 auto; padding-bottom: 32px; }
+
+  /* Franja superior */
+  .franja {
+    background: var(--rojo);
+    color: #fff;
+    padding: 14px 20px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .cruz {
+    width: 26px; height: 26px; flex: none;
+    background: var(--naranja);
+    border-radius: 6px;
+    position: relative;
+  }
+  .cruz::before, .cruz::after {
+    content: ""; position: absolute; background: #fff; border-radius: 1px;
+  }
+  .cruz::before { left: 11px; top: 5px; width: 4px; height: 16px; }
+  .cruz::after  { left: 5px; top: 11px; width: 16px; height: 4px; }
+
+  /* Persona */
+  .persona { background: var(--morado); color: #fff; padding: 22px 20px 26px; }
+  .persona .foto {
+    width: 84px; height: 84px; border-radius: 50%;
+    object-fit: cover; border: 3px solid var(--naranja);
+    background: var(--morado-medio); display: block; margin-bottom: 12px;
+  }
+  .persona h1 { margin: 0; font-size: 1.7rem; line-height: 1.2; }
+  .persona .sub { margin: 4px 0 0; color: #d9c8f0; font-size: 1rem; }
+
+  /* Tipo de sangre: lo primero que necesita un paramédico */
+  .sangre {
+    margin: -18px 20px 0;
+    background: #fff;
+    border: 2px solid var(--rojo);
+    border-radius: 14px;
+    padding: 14px 18px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    box-shadow: 0 6px 18px rgba(42, 17, 69, .14);
+    position: relative;
+  }
+  .sangre .etiqueta { font-size: 1rem; color: var(--morado-medio); }
+  .sangre .valor { font-size: 2.6rem; font-weight: 700; color: var(--rojo); line-height: 1; }
+
+  /* Bloques de información */
+  .bloques { padding: 20px 20px 0; display: grid; gap: 14px; }
+  .bloque {
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-left: 6px solid var(--naranja);
+    border-radius: 10px;
+    padding: 12px 16px;
+  }
+  .bloque.alerta { border-left-color: var(--rojo); }
+  .bloque h2 { margin: 0 0 4px; font-size: 1.05rem; color: var(--morado-medio); }
+  .bloque ul { margin: 0; padding-left: 20px; }
+  .bloque p { margin: 0; }
+
+  /* Contactos */
+  .contactos { padding: 24px 20px 0; }
+  .contactos > h2 { margin: 0 0 10px; font-size: 1.2rem; color: var(--morado); }
+  .contacto {
+    background: #fff; border: 1px solid var(--borde); border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 12px;
+  }
+  .contacto .nombre { font-weight: 700; font-size: 1.1rem; }
+  .contacto .rel { color: var(--morado-medio); margin-bottom: 10px; }
+  .botones { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .btn {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 48px; padding: 10px 12px;
+    border-radius: 10px; text-decoration: none;
+    font-weight: 700; font-size: 1rem; font-family: inherit;
+    border: 0; cursor: pointer;
+  }
+  .btn:focus-visible { outline: 3px solid var(--naranja); outline-offset: 2px; }
+  .btn.llamar { background: var(--rojo); color: #fff; }
+  .btn.whats  { background: var(--morado); color: #fff; }
+  .btn.ubic   { background: var(--naranja); color: var(--tinta); grid-column: 1 / -1; }
+  .btn.n911   { background: var(--tinta); color: #fff; width: 100%; }
+  .nota-ubic { margin: 8px 0 0; font-size: .9rem; color: var(--morado-medio); min-height: 1.3em; }
+
+  .emergencias { padding: 8px 20px 0; }
+
+  /* Pie */
+  .pie { text-align: center; padding: 28px 20px 0; color: var(--morado-medio); font-size: .95rem; }
+  .pie img { height: 44px; width: auto; display: block; margin: 0 auto 8px; }
+  .pie img[hidden] { display: none; }
+</style>
+</head>
+<body>
+<div class="pagina">
+
+  <div class="franja"><span class="cruz" aria-hidden="true"></span> Identificación médica de emergencia</div>
+
+  <header class="persona">
+    <img class="foto" id="foto" alt="" hidden>
+    <h1 id="nombre"></h1>
+    <p class="sub" id="sub"></p>
+  </header>
+
+  <div class="sangre" id="sangre" hidden>
+    <span class="etiqueta">Tipo de sangre</span>
+    <span class="valor" id="sangreValor"></span>
+  </div>
+
+  <main class="bloques" id="bloques"></main>
+
+  <section class="contactos" id="contactos" hidden>
+    <h2>Avisar a mi familia</h2>
+    <div id="listaContactos"></div>
+  </section>
+
+  <section class="emergencias">
+    <a class="btn n911" href="tel:911">Llamar al 911</a>
+  </section>
+
+  <footer class="pie">
+    <img id="logo" alt="Moici Lab" hidden>
+    <div>Moici Emergency by Moicilab</div>
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   DATOS: edita solo este bloque para cada persona.
+   Deja en "" o [] lo que no quieras mostrar; no aparece.
+   ============================================================ */
+const DATOS = {
+  nombre: "Nombre Apellido",
+  edad: "35 años",                  // opcional
+  foto: "foto.jpg",                 // opcional: archivo en la misma carpeta
+  logo: "../logo.png",              // ruta a tu logo (ajústala a donde lo subas)
+  sangre: "O+",
+  alergias: ["Penicilina"],
+  condiciones: ["Diabetes tipo 2"],
+  medicamentos: ["Metformina 850 mg, 2 veces al día"],
+  notas: "",                        // ej. usa marcapasos, no transfusiones, etc.
+  contactos: [
+    { nombre: "Nombre del contacto", relacion: "Esposa", tel: "+528440000000" }
+  ]
+};
+/* ============================================================ */
+
+const $ = id => document.getElementById(id);
+const limpio = t => String(t).replace(/[^\d+]/g, "");
+const quitaMas = t => limpio(t).replace(/^\+/, "");
+
+function crea(tag, clase, texto) {
+  const el = document.createElement(tag);
+  if (clase) el.className = clase;
+  if (texto !== undefined) el.textContent = texto;
+  return el;
+}
+
+/* Persona */
+$("nombre").textContent = DATOS.nombre;
+if (DATOS.edad) $("sub").textContent = DATOS.edad; else $("sub").hidden = true;
+document.title = "Identificación médica · " + DATOS.nombre;
+if (DATOS.foto) {
+  const f = $("foto");
+  f.src = DATOS.foto;
+  f.alt = "Foto de " + DATOS.nombre;
+  f.hidden = false;
+  f.onerror = () => { f.hidden = true; };
+}
+if (DATOS.logo) {
+  const l = $("logo");
+  l.src = DATOS.logo;
+  l.hidden = false;
+  l.onerror = () => { l.hidden = true; };
+}
+
+/* Sangre */
+if (DATOS.sangre) {
+  $("sangreValor").textContent = DATOS.sangre;
+  $("sangre").hidden = false;
+}
+
+/* Bloques de información */
+function bloque(titulo, contenido, esAlerta) {
+  if (!contenido || (Array.isArray(contenido) && !contenido.length)) return;
+  const b = crea("section", "bloque" + (esAlerta ? " alerta" : ""));
+  b.appendChild(crea("h2", "", titulo));
+  if (Array.isArray(contenido)) {
+    const ul = crea("ul");
+    contenido.forEach(i => ul.appendChild(crea("li", "", i)));
+    b.appendChild(ul);
+  } else {
+    b.appendChild(crea("p", "", contenido));
+  }
+  $("bloques").appendChild(b);
+}
+bloque("Alergias", DATOS.alergias, true);
+bloque("Condiciones médicas", DATOS.condiciones, false);
+bloque("Medicamentos", DATOS.medicamentos, false);
+bloque("Notas importantes", DATOS.notas, true);
+
+/* Contactos */
+if (DATOS.contactos && DATOS.contactos.length) {
+  $("contactos").hidden = false;
+  DATOS.contactos.forEach(c => {
+    const card = crea("div", "contacto");
+    card.appendChild(crea("div", "nombre", c.nombre));
+    if (c.relacion) card.appendChild(crea("div", "rel", c.relacion));
+
+    const botones = crea("div", "botones");
+
+    const llamar = crea("a", "btn llamar", "Llamar");
+    llamar.href = "tel:" + limpio(c.tel);
+    botones.appendChild(llamar);
+
+    const w = crea("a", "btn whats", "WhatsApp");
+    w.href = "https://wa.me/" + quitaMas(c.tel);
+    botones.appendChild(w);
+
+    const ubic = crea("button", "btn ubic", "Enviar mi ubicación por WhatsApp");
+    ubic.type = "button";
+    const nota = crea("p", "nota-ubic");
+    nota.setAttribute("aria-live", "polite");
+    ubic.addEventListener("click", () => {
+      if (!navigator.geolocation) { nota.textContent = "Este teléfono no permite obtener la ubicación."; return; }
+      nota.textContent = "Obteniendo ubicación…";
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          const { latitude, longitude } = pos.coords;
+          const mapa = "https://maps.google.com/?q=" + latitude + "," + longitude;
+          const msg = "Emergencia: estoy aquí. " + mapa;
+          window.location.href = "https://wa.me/" + quitaMas(c.tel) + "?text=" + encodeURIComponent(msg);
+        },
+        () => { nota.textContent = "No se pudo obtener la ubicación. Activa el permiso y vuelve a intentar."; },
+        { enableHighAccuracy: true, timeout: 10000 }
+      );
+    });
+    botones.appendChild(ubic);
+
+    card.appendChild(botones);
+    card.appendChild(nota);
+    $("listaContactos").appendChild(card);
+  });
+}
+</script>
+</body>
+</html>
